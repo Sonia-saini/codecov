@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #main{
+        display: grid;
+        width: 100%;
+        height:400px;
+        grid-template-columns: repeat(2,450px);
+        grid-template-rows: auto;
+        justify-content: space-between;
+        margin: auto;
+    }
+    #main>div{
+display: grid;
+grid-template-columns: repeat(1,300px);
+grid-template-rows: auto;
+border: 1px solid black;
+    }
+    form{
+        display: grid;
+        grid-template-columns: repeat(1,400px);
+        gap:20px;
+        margin:auto;
+       margin-left: 20px;
+        margin-top: -10px;
+        
+    }
+    h1{
+        margin-left: 40px;
+        margin-top: 50px;
+    }
+</style>
+<body>
+    <div id=main>
+        <div>  <h1>New Registration</h1>
+            <form>
+                <input type="text" placeholder="enter name" id="name">
+                <input type="email" placeholder="enter email" id="email">
+                <input type="text" placeholder="enter username" id="username">
+                <input type="password" placeholder="enter password" id="password">
+                <input type="number" placeholder="enter mobile no." id="mobile">
+                <input type="text" placeholder="enter description" id="des">
+<button onclick="register()">Register</button>
+            </form>
+        </div>
+        <div>
+            <h1>login</h1>
+            <form>
+         
+                <input type="text" placeholder="enter username" id="usernamee">
+            <input type="email" placeholder="enter email" id="emaill">
+            <input type="password" placeholder="enter password" id="passwordd">
+            <button onclick="setted()">LOGIN</button>
+            
+
+        </form></div>
+
+    </div>
+    <div id="append"></div>
+
+</body>
+</html>
+<script>let data;
+      let logu= `https://masai-api-mocker.herokuapp.com/auth/login`//login
+    let url= `https://masai-api-mocker.herokuapp.com/auth/register`//register 
+  async  function register(){
+    event.preventDefault();
+let sign={
+    name:document.getElementById("name").value,
+    email:document.getElementById("email").value,
+    password:document.getElementById("password").value,
+    mobile:document.getElementById("mobile").value,
+   description:document.getElementById("des").value,
+username:document.getElementById("username").value}
+sign=JSON.stringify(sign);
+let res=await fetch(url,
+{method:"POST",
+body:sign,
+headers:{
+    "Content-Type": "application/json"
+}});
+ data=await res.json();
+console.log(data);
+
+    }
+  
+
+    
+      async function setted(){
+    event.preventDefault();
+let log={
+   
+    
+    username:document.getElementById("usernamee").value,
+    email:document.getElementById("emaill").value,
+    password:document.getElementById("passwordd").value,
+
+    
+}
+log=JSON.stringify(log);
+let resis=await fetch(logu,
+{method:"POST",
+body:log,
+headers:{
+    "content-type": "application/json"
+}});
+let dat=await resis.json();
+console.log(dat);
+let name=document.getElementById("usernamee").value;
+trrim(name,dat.token)
+
+    }
+    async function trrim(username,token){
+let l=`https://masai-api-mocker.herokuapp.com/user/${username}`;
+let li=await fetch(l,{
+    method:"GET",
+    headers:{
+        'Authorization': `Bearer ${token}`
+    }
+
+})
+let d=await li.json();
+let p=document.createElement("p");
+p.innerText=d.username;
+let p1=document.createElement("p");
+p1.innerText=`Name:- ${d.name}`;
+let p2=document.createElement("p");
+p2.innerText=`Mobile:- ${d.mobile}`;
+let p3=document.createElement("p");
+p3.innerText=`Email ID:- ${d.email}`;
+let p4=document.createElement("p");
+p4.innerText=`Description:-${d.description}`;
+
+
+document.getElementById("append").append(p,p1,p2,p3,p4)
+console.log(d);
+
+    }
+</script>

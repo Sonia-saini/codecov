@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #main{
+        display: grid;
+        width: 90%;
+        height:auto;
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: auto;
+        gap:20px;
+        margin: auto;
+    }
+    #main>div{
+        margin:auto;
+        width:60%;
+        padding-top:20px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+   img {
+width:150px;
+height:150px;
+display: block;
+margin: auto;
+    }
+    p{
+        text-align: center;
+    }
+</style>
+<body>
+    <div id="main"></div>
+</body>
+</html>
+<script>
+    // "dependencies": {
+//   "json-server": "^0.17.0"
+// }
+  let url="http://127.0.0.1:3000/api/products";
+   
+   async function lead(){
+       let res=await fetch(url);
+       let data=await res.json();
+       console.log(data);
+       append(data);
+   }
+lead();
+function append(data){
+    let main=document.getElementById("main");
+    data.forEach((el)=>{
+        let div=document.createElement("div");
+    let p=document.createElement("img");
+    p.src="https://cdn-icons-png.flaticon.com/512/201/201818.png?w=360";
+    let p1=document.createElement("p");
+    p1.innerText=`Student Id:-${el.id}`;
+    let p2=document.createElement("p");
+    p2.innerText=`Name:-${el.name}`;
+    let p3=document.createElement("p");
+    p3.innerText=`Batch:-${el.batch}`;
+    div.append(p,p1,p2,p3)
+    main.append(div);
+    })
+   
+
+}
+</script>

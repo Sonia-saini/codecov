@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body><h1>Add Student</h1>
+    <div><input type="number" id="id" placeholder="enter student code">
+        <input type="text" id="name" placeholder="enter name">
+        <input type="text" id="price" placeholder="enter batch">
+    <button onclick="get()">add</button></div>
+    <h1>Delete Student</h1>
+    <div>
+    <input type="number" id="idd" placeholder="enter student code">
+    <button onclick="delet()">delete</button>
+    <h1>Updata Student Details</h1>
+    <div><input type="number" id="d" placeholder="enter student code">
+       
+        
+    <button onclick="update()">Update</button></div>
+    <h1>Replace Student Details</h1>
+    <div><input type="number" id="dd" placeholder="enter student code">
+       
+        
+    <button onclick="replace()">Replace</button></div>
+</div>
+
+</body>
+</html>
+<script>
+   async function get(){
+        let product={
+            id:document.getElementById("id").value,
+            name:document.getElementById("name").value,
+            batch:document.getElementById("price").value,
+
+        }
+        console.log(product);
+        product=JSON.stringify(product)
+        let res=await fetch("http://127.0.0.1:3000/api/products",{
+            method:"POST",
+            body:product,
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        let dd=res.json();
+        console.log(dd);
+    }
+
+   async function delet(){
+let id=document.getElementById("idd").value;
+let res1=await fetch(`http://127.0.0.1:3000/api/products/${id}`,{
+    method:"DELETE",
+    headers:{
+        "Content-Type":"application/json",
+    }
+    
+})
+let data=await res1.json();
+console.log(data);
+
+    }
+  
+async function update(){
+   
+    let id=document.getElementById("d").value;
+    let url=`http://127.0.0.1:3000/api/products/${id}`;
+let res=await fetch(url,{
+    method:"PATCH",
+    body:JSON.stringify({
+        name:"anama",
+        id:"4",
+        batch:"web-56",
+
+    }),
+    headers:{
+        "Content-Type":"application/json",
+    }
+
+})
+let data=await res.json();
+}
+async function replace(){
+    let id=document.getElementById("dd").value;
+    let url=`http://127.0.0.1:3000/api/products/${id}`;
+    let res=await fetch(url,{
+        method:"PUT",
+        body:JSON.stringify({
+            name:"Anshika",
+        }),
+        headers:{
+            "Content-Type":"application/json",
+
+        }
+    })
+    let data=await res.json();
+}
+
+</script>
